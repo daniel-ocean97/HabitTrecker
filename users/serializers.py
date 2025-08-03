@@ -3,6 +3,7 @@ from rest_framework import serializers
 
 from .models import User
 
+
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
@@ -16,7 +17,15 @@ class UserCreateSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ["username", "email", "password", "password2", "phone_number", "country", "avatar"]
+        fields = [
+            "username",
+            "email",
+            "password",
+            "password2",
+            "phone_number",
+            "country",
+            "avatar",
+        ]
         extra_kwargs = {"password": {"write_only": True}}
 
     def validate(self, attrs):
@@ -27,6 +36,7 @@ class UserCreateSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         validated_data.pop("password2")
         user = User.objects.create(
+            username=validated_data["username"],
             email=validated_data["email"],
             phone_number=validated_data.get("phone_number", ""),
             country=validated_data.get("country", ""),
