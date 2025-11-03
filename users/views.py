@@ -1,5 +1,4 @@
 from rest_framework import generics, permissions, status, viewsets
-
 from rest_framework.response import Response
 from rest_framework_simplejwt.authentication import JWTAuthentication
 
@@ -36,6 +35,7 @@ class UserViewSet(viewsets.ModelViewSet):
 
 
 class UserLoginView(generics.GenericAPIView):
+    serializer_class = UserSerializer
     permission_classes = [permissions.AllowAny]  # Доступно анонимам
 
     def post(self, request):
@@ -56,5 +56,3 @@ class UserRegistrationView(generics.CreateAPIView):
             status=status.HTTP_201_CREATED,
             headers=headers,
         )
-
-
